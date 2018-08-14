@@ -1,0 +1,24 @@
+{% extends 'blog/blog_list.html' %}
+
+
+{% load static %}
+{% block header_extends %}
+    <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+{% endblock %}
+
+{# 页面标题 #}
+{% block title %}
+    {{ blog_type.type_name }}
+{% endblock %}
+
+{% block blog_list_title %}
+    <h4 class="blog_list_title col-xs-8">{{ blog_type.type_name }}</h4>
+    <div class="all_blog col-xs-4">
+        <a href="{% url 'blog_list' %}">查看全部博客</a>
+    </div>
+    <div class="clear"></div>
+{% endblock %}
+
+
+
+

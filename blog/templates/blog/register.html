@@ -1,0 +1,122 @@
+{% extends 'blog/index.html' %}
+{% load static %}
+{% block head_er %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+<!--//Custom Theme files -->
+<!--js-->
+<script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'js/modernizr.custom.js' %}"></script>
+<!--//js-->
+<!--cart-->
+<script src="{% static 'js/simpleCart.min.js' %}"></script>
+<!--cart-->
+<!--web-fonts-->
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'><link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Pompiere' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Fascinate' rel='stylesheet' type='text/css'>
+<!--web-fonts-->
+<!--animation-effect-->
+<link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/mystyle.css' %}" rel="stylesheet">
+<script src="{% static 'js/wow.min.js' %}"></script>
+	<script>
+	 new WOW().init();
+	</script>
+<!--//animation-effect-->
+<!--start-smooth-scrolling-->
+<script type="text/javascript" src="{% static 'js/move-top.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/easing.js' %}"></script>
+<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event){
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+			});
+		});
+</script>
+{% endblock %}
+{% block content %}
+
+	<!--breadcrumbs-->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+				<li class="active">注册</li>
+			</ol>
+		</div>
+	</div>
+	<!--//breadcrumbs-->
+	<!--login-->
+	<div class="login-page">
+		<div class="title-info wow fadeInUp animated" data-wow-delay=".5s">
+			<h3 class="title">注册<span> Form</span></h3>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit curabitur </p>
+		</div>
+		<div class="widget-shadow">
+			<div class="login-top wow fadeInUp animated" data-wow-delay=".7s">
+				<h4>已有账号 ?<a href="{% url 'lisd:login' %}">  直接登录 »</a> </h4>
+			</div>
+			<div class="login-body">
+{#				<form class="wow fadeInUp animated" data-wow-delay=".7s" action="{% url 'lisd:register_submit' %}" method="post">#}
+					<input type="text" name="username" id="username" placeholder="请输入用户名" required="">
+					<input type="password" name="password1" id="password1" class="lock" placeholder="请输入密码">
+                    <input type="password" name="password2" id="password2" class="lock" placeholder="再一次输入密码">
+                    <input type="submit" name="Register" id="register" value="注册">
+{#				</form>#}
+			</div>
+		</div>
+	</div>
+    <script>
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+        });
+
+        // 页面加载完成
+        $(function(){
+            $("#register").click(function(){
+                $.ajax({
+                // 访问的目标url
+                url:"{% url 'lisd:register_submit' %}",
+                // http的method
+                type: "POST",
+                // 提交的参数
+                data: { "username":$("#username").val(),
+                    'password1': $("#password1").val(),
+                    'password2': $("#password2").val()},
+                // 后台返回成功后，调用的回调函数
+                success: function (data) {
+                    if (data['err']==1) {
+                        $("#username").val('');
+                        $("#password1").val('');
+                        $("#password2").val('');
+                        alert(data['msg']);
+
+                    }
+                    else if (data['err']==0){
+                        alert('注册成功..点击跳转至登录页面');
+                        $(location).attr('href',"{% url 'lisd:login' %}");
+                    }
+
+                    {#if(err ==1){#}
+                    {#    $("#username").val('');#}
+                    {#    $("#password1").val('');#}
+                    {#    $("#password2").val('');#}
+                    {# }#}
+                    {#else#}
+                    {#    $(location).attr('href',"{% url 'lisd:login' %}");#}
+                    {#alert(data + "123");#}
+                    {#// 阻止this的默认行为#}
+                    {#this.preventDefault();#}
+                },
+                // 服务器返回错误
+                error: function () {
+                    alert('error');
+                }
+                });
+            });
+        });
+    </script>
+	<!--//login-->
+	<!--footer-->
+{% endblock %}

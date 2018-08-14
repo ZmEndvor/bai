@@ -1,0 +1,9 @@
+.single_pointer{
+    cursor: pointer;
+}
+
+.single_size_selected{
+    font-weight: bold;
+    background: yellow;
+    color: red;
+}
